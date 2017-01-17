@@ -63,11 +63,10 @@ function $asNull () {
 }
 
 function $asNumber (i) {
-  var num = Number(i)
-  if (isNaN(num)) {
+  if (i === null || i === undefined || isNaN(i)) {
     return 'null'
   } else {
-    return '' + num
+    return '' + Number(i)
   }
 }
 
@@ -76,12 +75,16 @@ function $asBoolean (bool) {
 }
 
 function $asString (str) {
-  if (str instanceof Date) {
-    return '"' + str.toISOString() + '"'
-  } else if (str instanceof RegExp) {
-    str = str.source
-  } else if (typeof str !== 'string') {
-    str = str.toString()
+  if (typeof str !== 'string'){
+    if(str === null || str === undefined){
+      return 'null';
+    }else if (str instanceof Date) {
+      return '"' + str.toISOString() + '"'
+    } else if (str instanceof RegExp) {
+      str = str.source
+    } else {
+      str = str.toString()
+    }
   }
 
   if (str.length < 42) {
